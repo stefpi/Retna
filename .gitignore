@@ -130,3 +130,6 @@ dmypy.json
 
 Data/
 Data_Cropped/
+#Mac File Explorer
+.DS_Store
+
