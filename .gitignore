@@ -127,3 +127,10 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+Data/
+Data_Cropped/
+Data_Eyes/
+#Mac File Explorer
+.DS_Store
+
