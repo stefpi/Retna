@@ -37,31 +37,32 @@ def detectEyes(frame, path):
     #-- Detect eyes
     boxes = eyes_cascade.detectMultiScale(frame_gray)
     
-    total_width = 0
-    total_height = 0
-    
+    max_height = 0 # Ideally we want to upscale the smaller frame so we dont lose information
+    total_width=0
+
     if len(boxes) == 2:
-        for box in boxes:
-            x, y, w, h = box
+        for i in range(2):
+            h = boxes[i][3]
+            w = boxes[i][2]
             # Determine the size of the final image
-            total_width += w
-            if h > total_height:
-                total_height = h
+            total_width+=w
+            if h > max_height:
+                max_height = h
 
-        transparent_img = np.zeros((total_height, total_width, 3), dtype=np.uint8)
-
+        final = np.zeros((max_height,total_width,3), np.uint8) # initializes final image
         w_start=boxes[0][2] # This is the x-value from which the second box renders onto the image
 
         for i in range(2):
             x, y, w, h = boxes[i]
-            transparent_img[0:h, i*w_start:i*w_start+w] = frame[y:y + h, x:x + w]
-
-        cv.imwrite(path, transparent_img)
+            delta = 0
+            if h < max_height:
+                delta = round((max_height-h)/2)
+            final[0: max_height, i*w_start:i*w_start+w] = frame[(y-delta):(y+max_height-delta),x:x+w] # This will fail if the eye is at the corner of screen
+            
+        cv.imwrite(path, final)
 
     elif len(boxes) == 1:
         for (x,y,w,h) in boxes:
-            frame = cv.rectangle(frame, (x, y), (x+w, y+h), 
-                    (0, 0, 255), 2)
             frame = frame[y:y+h,x:x+w]
         cv.imwrite(path, frame)
 
