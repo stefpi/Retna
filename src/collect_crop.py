@@ -10,8 +10,8 @@ import numpy as np
 # define a video capture object
 vid = cv.VideoCapture(0)
 # Request input for where images will be stored
-root = r'C:\Users\danie\Pictures\Retna'
-eyes_path = r'C:\Users\danie\Pictures\RetnaEyes'
+root = r'/Users/stefpi/ws/QMIND/retna_data_collection/retna_nocrop'
+eyes_path = r'/Users/stefpi/ws/QMIND/retna_data_collection/retna_crop'
 # Check if input is a directory that already exists
 if os.path.isdir(root):
     response = ""
@@ -36,10 +36,10 @@ face_cascade = cv.CascadeClassifier()
 eyes_cascade = cv.CascadeClassifier()
 
 # Load the cascades
-if not face_cascade.load(cv.samples.findFile(r"C:\Users\danie\Documents\GitHub\Retna\src\haarcascade_frontalface_alt.xml")):
+if not face_cascade.load(cv.samples.findFile(r"/Users/stefpi/ws/QMIND/retna_data_collection/src/haarcascade_frontalface_alt.xml")):
     print('--(!)Error loading face cascade')
     exit(0)
-if not eyes_cascade.load(cv.samples.findFile(r"C:\Users\danie\Documents\GitHub\Retna\src\haarcascade_eye_tree_eyeglasses.xml")):
+if not eyes_cascade.load(cv.samples.findFile(r"/Users/stefpi/ws/QMIND/retna_data_collection/src/haarcascade_eye_tree_eyeglasses.xml")):
     print('--(!)Error loading eyes cascade')
     exit(0)
 
@@ -99,8 +99,8 @@ def on_click(x, y, button, pressed):
             filename = "{}-{}.jpeg".format(x,y)
             print(filename)
             cv.imwrite(os.path.join(root, filename), eye)
-            tempFile = root + "\\"+ filename
-            detectEyes(cv.imread(tempFile), eyes_path + "\\"+ filename)
+            tempFile = root + "/"+ filename
+            detectEyes(cv.imread(tempFile), eyes_path + "/"+ filename)
         else:
             print("Picture not taken.")
 
