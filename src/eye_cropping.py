@@ -4,9 +4,9 @@ import argparse
 import os
 import numpy as np
 
-path = 'Retna\src\Data' # Folder of the captured data
-path2 = 'Retna\src\Data_Cropped' # Output folder - faces 
-path3 = 'Retna\src\Data_Eyes' # Output folder - eyes
+path = "C:/Users/Tony/Desktop/images" # Folder of the captured data
+path2 = "C:/Users/Tony/Desktop/croppedFaces" # Output folder - faces
+path3 = "C:/Users/Tony/Desktop/croppedEyes" # Output folder - eyes
 files = os.listdir(path)
 
 def detectFace(frame, path):
@@ -77,10 +77,10 @@ face_cascade = cv.CascadeClassifier()
 eyes_cascade = cv.CascadeClassifier()
 
 # Load the cascades
-if not face_cascade.load(cv.samples.findFile("Retna\src\haarcascade_frontalface_alt.xml")):
+if not face_cascade.load(cv.samples.findFile("C:/Users/Tony/Desktop/Retna/src/haarcascade_frontalface_alt.xml")):
     print('--(!)Error loading face cascade')
     exit(0)
-if not eyes_cascade.load(cv.samples.findFile("Retna\src\haarcascade_eye_tree_eyeglasses.xml")):
+if not eyes_cascade.load(cv.samples.findFile("C:/Users/Tony/Desktop/Retna/src/haarcascade_eye_tree_eyeglasses.xml")):
     print('--(!)Error loading eyes cascade')
     exit(0)
 
