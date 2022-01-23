@@ -7,7 +7,7 @@ import shutil
 # define a video capture object
 vid = cv2.VideoCapture(0)
 # Request input for where images will be stored
-root = r'C:\Users\danie\Desktop\RetnaTest'
+root = 'src/Data'
 # Check if input is a directory that already exists
 if os.path.isdir(root):
     response = ""
