@@ -7,7 +7,7 @@ import shutil
 # define a video capture object
 vid = cv2.VideoCapture(0)
 # Request input for where images will be stored
-root = 'Retna\src\Data\\'
+root = 'src/Data'
 # Check if input is a directory that already exists
 if os.path.isdir(root):
     response = ""
@@ -40,9 +40,9 @@ def on_click(x, y, button, pressed):
         
         # If eye successfully took picture, save it
         if not (eye is None):
-            filename = root + "{}-{}.jpeg".format(x,y)
+            filename = "{}-{}.jpeg".format(x,y)
             print(filename)
-            cv2.imwrite(filename, eye)
+            cv2.imwrite(os.path.join(root, filename), eye)
         else:
             print("Picture not taken.")
     
