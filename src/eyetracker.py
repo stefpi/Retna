@@ -19,6 +19,10 @@ def normalize(x):
 
 def scan(image_size=(32, 32)):
   _, frame = video_capture.read()
+  cv2.imshow("Face View", frame)
+  if cv2.waitKey(1) & 0xFF == ord("q"):
+    video_capture.release()
+    cv2.destroyAllWindows()
   gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
   boxes = cascade.detectMultiScale(gray, 1.3, 10)
   if len(boxes) == 2:
@@ -119,12 +123,12 @@ def scroller(model):
       if counter == 4:
         # Scroll up
         if mean(prev_scans) > 0.7:
-          pyautogui.scroll(10)
-          state = "up"
-        # Scroll Down 
-        elif mean(prev_scans) < 0.5:
           pyautogui.scroll(-10)
           state = "down"
+        # Scroll Down 
+        elif mean(prev_scans) < 0.2:
+          pyautogui.scroll(10)
+          state = "up"
         counter = 0
         prev_scans = []
       eyes = np.expand_dims(eyes / 255.0, axis = 0)
