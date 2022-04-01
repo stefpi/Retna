@@ -9,7 +9,7 @@ from tensorflow.keras.optimizers import *
 cascade = cv2.CascadeClassifier("./src/haarcascade_eye_tree_eyeglasses.xml")
 video_capture = cv2.VideoCapture(0)
 # Change this to ur resolution, but minus 1 pixel for both dimension
-width, height = 1919, 1199
+width, height = 2559, 1599
 
 
 def normalize(x):
@@ -91,52 +91,67 @@ def scroller(model):
   """
   Allows for scrolling with the eye
   """
-  counter = 0
-  state = "neutral"
-  prev_scans = []
+  # possibly improved code
+  upper_TOL = 300
+  lower_TOL = 400
   while True:
     eyes = scan()
     if not eyes is None:
-      # Prolongs scroll, not working properly
-      """if state is "up" or state is "down":
-        eyes = np.expand_dims(eyes / 255.0, axis = 0)
-        x, y = model.predict(eyes)[0]
-        print(y)
-        # Scroll up
-        if y < 0.3 and state is "up":
-          pyautogui.scroll(10)
-
-        elif y < height * 0.3 and state is "down":
-          state = "neutral"
-
-        # Scroll Down 
-        elif y > 0.7 and state is "down":
-          pyautogui.scroll(-10)
-
-        elif y > 0.7 and state is "down":
-          state = "neutral"
-
-        counter = 0
-        prev_scans = []
-        continue"""
-
-      if counter == 4:
-        # Scroll up
-        if mean(prev_scans) > 0.7:
-          pyautogui.scroll(-10)
-          state = "down"
-        # Scroll Down 
-        elif mean(prev_scans) < 0.2:
-          pyautogui.scroll(10)
-          state = "up"
-        counter = 0
-        prev_scans = []
       eyes = np.expand_dims(eyes / 255.0, axis = 0)
       x, y = model.predict(eyes)[0]
+      if (y*height < upper_TOL):
+        pyautogui.scroll(1)
+      elif ((y*height) > (height-lower_TOL)):
+        pyautogui.scroll(-1)
       print(y)
-      # We just need the vertical coordinates
-      prev_scans.append(y)
-      counter += 1
+
+
+  # counter = 0
+  # state = "neutral"
+  # prev_scans = []
+  # while True:
+  #   eyes = scan()
+  #   if not eyes is None:
+  #     # Prolongs scroll, not working properly
+  #     """if state is "up" or state is "down":
+  #       eyes = np.expand_dims(eyes / 255.0, axis = 0)
+  #       x, y = model.predict(eyes)[0]
+  #       print(y)
+  #       # Scroll up
+  #       if y < 0.3 and state is "up":
+  #         pyautogui.scroll(10)
+
+  #       elif y < height * 0.3 and state is "down":
+  #         state = "neutral"
+
+  #       # Scroll Down 
+  #       elif y > 0.7 and state is "down":
+  #         pyautogui.scroll(-10)
+
+  #       elif y > 0.7 and state is "down":
+  #         state = "neutral"
+
+  #       counter = 0
+  #       prev_scans = []
+  #       continue"""
+
+  #     if counter == 4:
+  #       # Scroll up
+  #       if mean(prev_scans) > 0.7:
+  #         pyautogui.scroll(-10)
+  #         state = "down"
+  #       # Scroll Down 
+  #       elif mean(prev_scans) < 0.2:
+  #         pyautogui.scroll(10)
+  #         state = "up"
+  #       counter = 0
+  #       prev_scans = []
+  #     eyes = np.expand_dims(eyes / 255.0, axis = 0)
+  #     x, y = model.predict(eyes)[0]
+  #     print(y)
+  #     # We just need the vertical coordinates
+  #     prev_scans.append(y)
+  #     counter += 1
 
 if __name__ == "__main__":
   model = load_model("./Saved Models/model0")
